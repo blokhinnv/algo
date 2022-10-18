@@ -8,10 +8,12 @@ import (
 	"github.com/kr/pretty"
 )
 
+// Числовой тип
 type Number interface {
 	int | int32 | float32 | int64 | float64
 }
 
+// Базовый тип для узла графа вычислений
 type Node[T Number] struct {
 	value   T
 	name    string
@@ -19,6 +21,7 @@ type Node[T Number] struct {
 	parents []*Node[T]
 }
 
+// Общий конструктор узлов графа вычислений
 func NewNode[T Number](
 	value T,
 	op func(T, T) T,
@@ -26,11 +29,12 @@ func NewNode[T Number](
 	name any,
 	prefix any,
 ) *Node[T] {
+	// prefix обычно означает операцию
 	prefixStr, ok := prefix.(string)
 	if !ok {
 		prefixStr = ""
 	}
-
+	// генерируем имя узла, если оно не задано
 	nodeName, ok := name.(string)
 	if !ok {
 		nodeName = uuid.New().String()
@@ -44,6 +48,11 @@ func NewNode[T Number](
 		op:      op,
 		parents: parents,
 	}
+}
+
+// Конструктор именованных узлов без операций
+func NewNamedNode[T Number](value T, name string) *Node[T]{
+	return NewNode(value, nil, nil, name, nil)
 }
 
 func (self *Node[T]) GetParents() []*Node[T] {
@@ -63,6 +72,8 @@ func (self *Node[T]) String() string {
 
 }
 
+// Реализует обход в ширину вверх, начиная с узла self
+// для построения графа
 func (self *Node[T]) ToGraph() gp.Graph[string, string] {
 	g := gp.New(gp.StringHash, gp.Directed())
 	queue := []*Node[T]{self}

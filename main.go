@@ -47,8 +47,8 @@ func integrals_example() {
 }
 
 func graph_example() {
-	x := graph.NewNode(2.0, nil, nil, "x", nil)
-	y := graph.NewNode(2.5, nil, nil, "y", nil)
+	x := graph.NewNamedNode(2.0, "x")
+	y := graph.NewNamedNode(2.5, "y")
 	c := 1.0
 	f := graph.AddNode(x, graph.NegNode(graph.MulNode(y, c)))
 	fmt.Println(f)
@@ -57,9 +57,9 @@ func graph_example() {
 }
 
 func graph_example2() {
-	x := graph.NewNode(2, nil, nil, "x", nil)
-	y := graph.NewNode(2, nil, nil, "y", nil)
-	z := graph.NewNode(2, nil, nil, "z", nil)
+	x := graph.NewNamedNode(2, "x")
+	y := graph.NewNamedNode(2, "y")
+	z := graph.NewNamedNode(2, "z")
 	f := graph.MulNode(z, graph.AddNode(x, y))
 	fmt.Println(f)
 	fmt.Println(f.GetValue())
@@ -68,10 +68,10 @@ func graph_example2() {
 
 func drawExample(fileName string) {
 	// based on https://dominikbraun.io/blog/visualizing-graph-structures-using-go-and-graphviz/
-	x := graph.NewNode(2.0, nil, nil, "x", nil)
-	y := graph.NewNode(2.5, nil, nil, "y", nil)
-	// c := graph.NewNode(1.0, nil, nil, "c", nil)
-	// z := graph.NewNode(0.0, nil, nil, "z", nil)
+	x := graph.NewNamedNode(2.0, "x")
+	y := graph.NewNamedNode(2.5, "y")
+	// c := graph.NewNamedNode(1.0, "c")
+	// z := graph.NewNamedNode(0.0, "z")
 	f := graph.AddNode(x, graph.NegNode(graph.MulNode(y, 1.0)))
 	g := f.ToGraph()
 	file, _ := os.Create(fmt.Sprintf("graph_examples/%v.gv", fileName))
