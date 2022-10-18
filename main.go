@@ -11,7 +11,6 @@ import (
 	"os/exec"
 
 	"github.com/dominikbraun/graph/draw"
-	"gonum.org/v1/gonum/diff/fd"
 )
 
 func integrals_example() {
@@ -28,22 +27,12 @@ func integrals_example() {
 		func(x float64) float64 {
 			return x * math.Exp(x)
 		},
-		func(x float64) float64 {
-			return 0
-		},
+		nil,
 	)
 
 	fmt.Println(integrate.TrapezoidsN(f, 0, 5, 10))
 	fmt.Println(integrate.TrapezoidsDelta(f, 0, 5, 0.00001))
 	fmt.Println(integrate.TrapezoidsDelta(h, 0, 2, 0.001))
-
-	dy := func(x float64) float64 {
-		return fd.Derivative(f.Y, x, &fd.Settings{
-			Formula: fd.Forward,
-			Step:    1e-3,
-		})
-	}
-	fmt.Println(f.Dy(5), dy(5))
 }
 
 func graph_example() {
@@ -104,5 +93,6 @@ func drawExample(fileName string) {
 func main() {
 	// drawExample2("graph2")
 	// graph_example()
-	graph_example2()
+	// graph_example2()
+	integrals_example()
 }
