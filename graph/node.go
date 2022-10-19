@@ -1,3 +1,4 @@
+// Пакет для построения графа вычислений
 package graph
 
 import (
@@ -51,7 +52,7 @@ func NewNode[T Number](
 }
 
 // Конструктор именованных узлов без операций
-func NewNamedNode[T Number](value T, name string) *Node[T]{
+func NewNamedNode[T Number](value T, name string) *Node[T] {
 	return NewNode(value, nil, nil, name, nil)
 }
 

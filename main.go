@@ -51,7 +51,7 @@ func graph_example2() {
 	z := graph.NewNamedNode(2, "z")
 	f := graph.MulNode(z, graph.AddNode(x, y))
 	fmt.Println(f)
-	fmt.Println(f.GetValue())
+	fmt.Println("Результат вычислений: ", f.GetValue())
 
 }
 
@@ -59,9 +59,7 @@ func drawExample(fileName string) {
 	// based on https://dominikbraun.io/blog/visualizing-graph-structures-using-go-and-graphviz/
 	x := graph.NewNamedNode(2.0, "x")
 	y := graph.NewNamedNode(2.5, "y")
-	// c := graph.NewNamedNode(1.0, "c")
-	// z := graph.NewNamedNode(0.0, "z")
-	f := graph.AddNode(x, graph.NegNode(graph.MulNode(y, 1.0)))
+	f := graph.AddNode(x, graph.NegNode(graph.MulNode(y, 3.0)))
 	g := f.ToGraph()
 	file, _ := os.Create(fmt.Sprintf("graph_examples/%v.gv", fileName))
 	_ = draw.DOT(g, file)
@@ -90,9 +88,30 @@ func drawExample(fileName string) {
 
 }
 
+func fExample() {
+	var f = m.NewFunction(
+		func(x float64) float64 {
+			return x * x / 2
+		},
+		func(x float64) float64 {
+			return x
+		},
+	)
+	fmt.Printf("f(%v) = %v, f'(%v) = %v\n", 3, f.Y(3), 3, f.Dy(3))
+
+	var g = m.NewFunction(
+		func(x float64) float64 {
+			return x * x / 2
+		},
+		nil,
+	)
+	fmt.Printf("g(%v) = %v, g'(%v) = %v\n", 3, g.Y(3), 3, g.Dy(3))
+}
+
 func main() {
-	// drawExample2("graph2")
+	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
 	integrals_example()
+	// fExample()
 }
