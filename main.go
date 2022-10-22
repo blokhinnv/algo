@@ -1,6 +1,7 @@
 package main
 
 import (
+	"algo/equation"
 	"algo/graph"
 	"algo/integrate"
 	m "algo/math"
@@ -14,7 +15,7 @@ import (
 )
 
 func integrals_example() {
-	var f = m.NewFunction(
+	var f = m.NewFunctionWithDerivative(
 		func(x float64) float64 {
 			return 7 / (x*x + 1)
 		},
@@ -23,11 +24,10 @@ func integrals_example() {
 		},
 	)
 
-	var h = m.NewFunction(
+	var h = m.NewFunctionNoDerivatives(
 		func(x float64) float64 {
 			return x * math.Exp(x)
 		},
-		nil,
 	)
 
 	fmt.Println(integrate.TrapezoidsN(f, 0, 5, 10))
@@ -42,7 +42,6 @@ func graph_example() {
 	f := graph.AddNode(x, graph.NegNode(graph.MulNode(y, c)))
 	fmt.Println(f)
 	fmt.Println(f.GetValue())
-
 }
 
 func graph_example2() {
@@ -52,7 +51,6 @@ func graph_example2() {
 	f := graph.MulNode(z, graph.AddNode(x, y))
 	fmt.Println(f)
 	fmt.Println("Результат вычислений: ", f.GetValue())
-
 }
 
 func drawExample(fileName string) {
@@ -85,11 +83,10 @@ func drawExample(fileName string) {
 		fmt.Println(err.Error())
 		return
 	}
-
 }
 
 func fExample() {
-	var f = m.NewFunction(
+	var f = m.NewFunctionWithDerivative(
 		func(x float64) float64 {
 			return x * x / 2
 		},
@@ -99,19 +96,45 @@ func fExample() {
 	)
 	fmt.Printf("f(%v) = %v, f'(%v) = %v\n", 3, f.Y(3), 3, f.Dy(3))
 
-	var g = m.NewFunction(
+	var g = m.NewFunctionNoDerivatives(
 		func(x float64) float64 {
 			return x * x / 2
 		},
-		nil,
 	)
 	fmt.Printf("g(%v) = %v, g'(%v) = %v\n", 3, g.Y(3), 3, g.Dy(3))
+}
+
+func bisectionExample() {
+	// https://studfile.net/preview/6736203/page:2/
+	var f = m.NewFunctionNoDerivatives(
+		func(x float64) float64 {
+			// return x*x - math.Sin(x) - 1
+			return math.Exp(-x) - math.Sin(x)
+		},
+	)
+	// res := equation.BisectionEps(f, 1, 2, 1e-2)
+	res := equation.BisectionEps(f, 0, 1, 1e-5)
+	fmt.Println(res)
+}
+
+func chordsExample() {
+	// https://elar.urfu.ru/bitstream/10995/1054/1/umk_2004_015.pdf
+	var f = m.NewFunctionNoDerivatives(
+		func(x float64) float64 {
+			// return x*x - math.Sin(x) - 1
+			return math.Tan(0.93*x+0.43) - math.Pow(x, 2)
+		},
+	)
+	res := equation.ChordsEps(f, -0.4, -0.2, 1e-4)
+	fmt.Println(res)
 }
 
 func main() {
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
-	integrals_example()
+	// integrals_example()
 	// fExample()
+	// bisectionExample()
+	chordsExample()
 }

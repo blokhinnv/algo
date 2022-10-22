@@ -10,14 +10,13 @@ import (
 )
 
 func TestTrapezoidsN(t *testing.T) {
-	var f = m.NewFunction(
+	var f = m.NewFunctionNoDerivatives(
 		func(x float64) float64 {
 			return 7 / (x*x + 1)
 		},
-		nil,
 	)
 
-	var g = m.NewFunction(
+	var g = m.NewFunctionWithDerivative(
 		func(x float64) float64 {
 			return 1 / math.Log(x)
 		},
@@ -42,12 +41,9 @@ func TestTrapezoidsN(t *testing.T) {
 }
 
 func TestTrapezoidsDelta(t *testing.T) {
-	var h = m.NewFunction(
+	var h = m.NewFunctionNoDerivatives(
 		func(x float64) float64 {
 			return x * math.Exp(x)
-		},
-		func(x float64) float64 {
-			return 0
 		},
 	)
 

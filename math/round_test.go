@@ -39,7 +39,7 @@ func TestNewFunction(t *testing.T) {
 			Y:  y,
 			Dy: dy,
 		}
-		f_from_func := NewFunction(y, dy)
+		f_from_func := NewFunctionWithDerivative(y, dy)
 		assert.Equal(t, f, f_from_func)
 	})
 
