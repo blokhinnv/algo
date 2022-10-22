@@ -130,6 +130,14 @@ func chordsExample() {
 }
 
 func main() {
+	_ = integrals_example
+	_ = drawExample
+	_ = graph_example
+	_ = graph_example2
+	_ = integrals_example
+	_ = fExample
+	_ = bisectionExample
+	_ = chordsExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
