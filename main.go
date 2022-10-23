@@ -138,11 +138,11 @@ func main() {
 	_ = fExample
 	_ = bisectionExample
 	_ = chordsExample
-	// drawExample("graph2")
+	drawExample("graph2")
 	// graph_example()
 	// graph_example2()
 	// integrals_example()
 	// fExample()
 	// bisectionExample()
-	chordsExample()
+	// chordsExample()
 }
