@@ -5,8 +5,8 @@ import (
 	"math"
 )
 
-func BisectionEps(f m.Function, a float64, b float64, eps float64) NumericalResult {
-	iters := make([]Iteration, 0)
+func BisectionEps(f m.Function, a float64, b float64, eps float64) NumericalRangeResult {
+	iters := make([]RangeIteration, 0)
 	n_iters := int(math.Ceil(math.Log2((b - a) / eps)))
 	for k := 0; k < n_iters; k++ {
 		x := (a + b) / 2
@@ -20,9 +20,9 @@ func BisectionEps(f m.Function, a float64, b float64, eps float64) NumericalResu
 
 		delta := math.Abs(b - a)
 
-		iters = append(iters, Iteration{k, a, b, x, y, delta})
+		iters = append(iters, RangeIteration{k, a, b, x, y, delta})
 	}
-	return NumericalResult{
+	return NumericalRangeResult{
 		iters,
 		m.RoundFloat(
 			iters[len(iters)-1].x,

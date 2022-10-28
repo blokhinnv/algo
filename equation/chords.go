@@ -5,9 +5,9 @@ import (
 	"math"
 )
 
-func rightSideChords(f m.Function, a float64, b float64, eps float64) []Iteration {
-	iters := make([]Iteration, 1)
-	iters[0] = Iteration{0, a, b, b, f.Y(b), b - a}
+func rightSideChords(f m.Function, a float64, b float64, eps float64) []RangeIteration {
+	iters := make([]RangeIteration, 1)
+	iters[0] = RangeIteration{0, a, b, b, f.Y(b), b - a}
 	fa := f.Y(a)
 	k := 1
 	xCurr, xPrev := b, b
@@ -18,7 +18,7 @@ func rightSideChords(f m.Function, a float64, b float64, eps float64) []Iteratio
 
 		iters = append(
 			iters,
-			Iteration{k, a, xCurr, xCurr, f.Y(xCurr), delta},
+			RangeIteration{k, a, xCurr, xCurr, f.Y(xCurr), delta},
 		)
 
 		if delta < eps {
@@ -29,9 +29,9 @@ func rightSideChords(f m.Function, a float64, b float64, eps float64) []Iteratio
 	return iters
 }
 
-func leftSideChords(f m.Function, a float64, b float64, eps float64) []Iteration {
-	iters := make([]Iteration, 1)
-	iters[0] = Iteration{0, a, b, a, f.Y(a), b - a}
+func leftSideChords(f m.Function, a float64, b float64, eps float64) []RangeIteration {
+	iters := make([]RangeIteration, 1)
+	iters[0] = RangeIteration{0, a, b, a, f.Y(a), b - a}
 	fb := f.Y(b)
 	k := 1
 	xCurr, xPrev := a, a
@@ -42,7 +42,7 @@ func leftSideChords(f m.Function, a float64, b float64, eps float64) []Iteration
 
 		iters = append(
 			iters,
-			Iteration{k, xCurr, b, xCurr, f.Y(xCurr), delta},
+			RangeIteration{k, xCurr, b, xCurr, f.Y(xCurr), delta},
 		)
 
 		if delta < eps {
@@ -53,10 +53,10 @@ func leftSideChords(f m.Function, a float64, b float64, eps float64) []Iteration
 	return iters
 }
 
-func ChordsEps(f m.Function, a float64, b float64, eps float64) NumericalResult {
+func ChordsEps(f m.Function, a float64, b float64, eps float64) NumericalRangeResult {
 	fa := f.Y(a)
 	space := m.Linspace(a, b, 100)
-	var iters []Iteration = nil
+	var iters []RangeIteration = nil
 	if m.All(space, func(x float64) bool { return f.D2y(x) >= 0 }) {
 		// функция выпукла вверх
 		if fa > 0 {
@@ -76,9 +76,9 @@ func ChordsEps(f m.Function, a float64, b float64, eps float64) NumericalResult 
 			iters = rightSideChords(f, a, b, eps)
 		}
 	} else {
-		return NumericalResult{}
+		return NumericalRangeResult{}
 	}
-	return NumericalResult{
+	return NumericalRangeResult{
 		iters,
 		m.RoundFloat(
 			iters[len(iters)-1].x,

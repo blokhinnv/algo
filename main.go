@@ -129,6 +129,16 @@ func chordsExample() {
 	fmt.Println(res)
 }
 
+func succApproxExample() {
+	var f = m.NewFunctionNoDerivatives(
+		func(x float64) float64 {
+			return math.Cos(x)
+		},
+	)
+	res := equation.SuccessiveApprox(f, 0, 1, 0.1)
+	fmt.Println(res)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -138,11 +148,13 @@ func main() {
 	_ = fExample
 	_ = bisectionExample
 	_ = chordsExample
-	drawExample("graph2")
+	_ = succApproxExample
+	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
 	// integrals_example()
 	// fExample()
 	// bisectionExample()
 	// chordsExample()
+	succApproxExample()
 }
