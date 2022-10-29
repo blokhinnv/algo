@@ -8,6 +8,7 @@ import (
 func SuccessiveApprox(f m.Function, a, b, eps float64) NumericalResult {
 	space := m.Linspace(a, b, 100)
 
+	// метод сходится, если производная на отрезке по модулю меньше 1
 	if !m.All(space, func(x float64) bool { return math.Abs(f.Dy(x)) < 1 }) {
 		return NEGATIVE_RESULT
 	}

@@ -121,7 +121,6 @@ func chordsExample() {
 	// https://elar.urfu.ru/bitstream/10995/1054/1/umk_2004_015.pdf
 	var f = m.NewFunctionNoDerivatives(
 		func(x float64) float64 {
-			// return x*x - math.Sin(x) - 1
 			return math.Tan(0.93*x+0.43) - math.Pow(x, 2)
 		},
 	)
@@ -139,6 +138,17 @@ func succApproxExample() {
 	fmt.Println(res)
 }
 
+func newtonExample() {
+	// https://elar.urfu.ru/bitstream/10995/1054/1/umk_2004_015.pdf
+	var f = m.NewFunctionNoDerivatives(
+		func(x float64) float64 {
+			return math.Tan(0.93*x+0.43) - math.Pow(x, 2)
+		},
+	)
+	res := equation.Newton(f, -0.4, -0.2, 1e-4)
+	fmt.Println(res)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -149,6 +159,7 @@ func main() {
 	_ = bisectionExample
 	_ = chordsExample
 	_ = succApproxExample
+	_ = newtonExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -156,5 +167,6 @@ func main() {
 	// fExample()
 	// bisectionExample()
 	// chordsExample()
-	succApproxExample()
+	// succApproxExample()
+	newtonExample()
 }
