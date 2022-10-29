@@ -134,7 +134,17 @@ func succApproxExample() {
 			return math.Cos(x)
 		},
 	)
-	res := equation.SuccessiveApprox(f, 0, 1, 0.1)
+	res := equation.SuccessiveApprox(f, 0, 1, 0.001)
+	fmt.Println(res)
+}
+
+func succApproxAdvExample() {
+	var f = m.NewFunctionNoDerivatives(
+		func(x float64) float64 {
+			return math.Cos(x)
+		},
+	)
+	res := equation.SuccessiveApproxAdv(f, 0, 1, 0.001)
 	fmt.Println(res)
 }
 
@@ -160,6 +170,7 @@ func main() {
 	_ = chordsExample
 	_ = succApproxExample
 	_ = newtonExample
+	_ = succApproxAdvExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -167,6 +178,7 @@ func main() {
 	// fExample()
 	// bisectionExample()
 	// chordsExample()
-	// succApproxExample()
-	newtonExample()
+	succApproxExample()
+	succApproxAdvExample()
+	// newtonExample()
 }
