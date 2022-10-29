@@ -176,9 +176,9 @@ func main() {
 	// graph_example2()
 	// integrals_example()
 	// fExample()
-	// bisectionExample()
-	// chordsExample()
+	bisectionExample()
+	chordsExample()
 	succApproxExample()
 	succApproxAdvExample()
-	// newtonExample()
+	newtonExample()
 }

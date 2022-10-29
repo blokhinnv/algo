@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-// Структура для результата решения уравнения
+// Структура для итерации алгоритма с уточнением интервала
 type RangeIteration struct {
 	k   int
 	a   float64
@@ -16,12 +16,14 @@ type RangeIteration struct {
 	eps float64
 }
 
+// Структура для результата решения уравнения с уточнением интервала
 type NumericalRangeResult struct {
 	iters []RangeIteration
 	x     float64
 	eps   float64
 }
 
+// Метод для строкового представления ответа
 func (r NumericalRangeResult) String() string {
 	s := fmt.Sprintf("Решение: x=%v eps=%v\n\n", r.x, r.eps)
 	s += fmt.Sprintf(
@@ -43,6 +45,7 @@ func (r NumericalRangeResult) String() string {
 
 }
 
+// Структура для итерации алгоритма с уточнением самого корня
 type SimpleIteration struct {
 	k   int
 	x   float64
@@ -50,12 +53,14 @@ type SimpleIteration struct {
 	eps float64
 }
 
+// Структура для ответа алгоритма с уточнением самого корня
 type NumericalResult struct {
 	iters []SimpleIteration
 	x     float64
 	eps   float64
 }
 
+// Метод для строкового представления ответа
 func (r NumericalResult) String() string {
 	s := fmt.Sprintf("Решение: x=%v eps=%v\n\n", r.x, r.eps)
 	s += fmt.Sprintf(

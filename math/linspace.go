@@ -2,6 +2,7 @@ package math
 
 import "math"
 
+// Генерирует N точек на полуинтервале
 func Linspace(start, stop float64, N int) []float64 {
 	rnge := make([]float64, N)
 	step := (stop - start) / float64(N)
@@ -13,6 +14,7 @@ func Linspace(start, stop float64, N int) []float64 {
 	return rnge
 }
 
+// Генерирует точки на полуинтервале с заданным шагов
 func Arange(start, stop, step float64) []float64 {
 	N := int(math.Ceil((stop - start) / step))
 	rnge := make([]float64, N)

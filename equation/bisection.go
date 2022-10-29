@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Метод половинного деления на заданном отрезке с заданной точностью
 func BisectionEps(f m.Function, a float64, b float64, eps float64) NumericalRangeResult {
 	iters := make([]RangeIteration, 0)
 	n_iters := int(math.Ceil(math.Log2((b - a) / eps)))

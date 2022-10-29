@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Метод хорд для движения с правой стороны
 func rightSideChords(f m.Function, a float64, b float64, eps float64) []RangeIteration {
 	iters := make([]RangeIteration, 1)
 	iters[0] = RangeIteration{0, a, b, b, f.Y(b), b - a}
@@ -29,6 +30,7 @@ func rightSideChords(f m.Function, a float64, b float64, eps float64) []RangeIte
 	return iters
 }
 
+// Метод хорд для движения с левой стороны
 func leftSideChords(f m.Function, a float64, b float64, eps float64) []RangeIteration {
 	iters := make([]RangeIteration, 1)
 	iters[0] = RangeIteration{0, a, b, a, f.Y(a), b - a}
@@ -53,6 +55,7 @@ func leftSideChords(f m.Function, a float64, b float64, eps float64) []RangeIter
 	return iters
 }
 
+// Метод хорд на заданном отрезке с заданной точностью
 func ChordsEps(f m.Function, a float64, b float64, eps float64) NumericalRangeResult {
 	fa := f.Y(a)
 	space := m.Linspace(a, b, 100)

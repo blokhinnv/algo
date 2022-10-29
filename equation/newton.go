@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Метод Ньютона на заданном отрезке с заданной точностью
 func Newton(f m.Function, a, b, eps float64) NumericalResult {
 	var xCurr float64
 	if f.D2y(a)*f.Y(a) > 0 {

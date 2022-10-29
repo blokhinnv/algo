@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+// Метод последовательных приближений
 func SuccessiveApprox(f m.Function, a, b, eps float64) NumericalResult {
 	space := m.Linspace(a, b, 100)
 
