@@ -27,7 +27,11 @@ func printIter(k int, A [][]float64, b []float64, isForward bool) {
 }
 
 // Классический метод Гаусса
-func SolveGauss(A [][]float64, b []float64, verbose bool) []float64 {
+func SolveGauss(A_in [][]float64, b_in []float64, verbose bool) []float64 {
+	A := make([][]float64, len(A_in))
+	b := make([]float64, len(b_in))
+	copy(A, A_in)
+	copy(b, b_in)
 	n := len(A)
 	for k := 0; k < n-1; k++ { // итерации прямого хода
 		for i := k + 1; i < n; i++ { // проход строк ниже k
@@ -57,7 +61,12 @@ func SolveGauss(A [][]float64, b []float64, verbose bool) []float64 {
 }
 
 // Метод Жордана-Гаусса
-func SolveGaussBackward(A [][]float64, b []float64, verbose bool) []float64 {
+func SolveGaussBackward(A_in [][]float64, b_in []float64, verbose bool) []float64 {
+	A := make([][]float64, len(A_in))
+	b := make([]float64, len(b_in))
+	copy(A, A_in)
+	copy(b, b_in)
+
 	n := len(A)
 	nForwardIters := n - 1
 	for k := 0; k < n-1; k++ { // итерации прямого хода

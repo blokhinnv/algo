@@ -1,13 +1,27 @@
-package systems
+package math
 
 import (
-	m "algo/math"
 	"fmt"
 )
 
+type Matrix [][]float64
+
+// Метод для красивого вывода матрицы
+func (r Matrix) String() string {
+	m, n := len(r), len(r[0])
+	s := "\n"
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			s += fmt.Sprintf("%5.2f ", RoundFloat(r[i][j], 2))
+		}
+		s += "\n"
+	}
+	return s
+}
+
 // Выводит на экран текущую матрицу преобразования
 // в форматированном виде
-func printIterInv(k int, A [][]float64, isForward bool) {
+func printIterInv(k int, A Matrix, isForward bool) {
 	n := len(A)
 
 	arrow := "↓"
@@ -17,12 +31,12 @@ func printIterInv(k int, A [][]float64, isForward bool) {
 	fmt.Printf("[Iteration %d %v]\n", k, arrow)
 	for i := 0; i < n; i++ {
 		for j := 0; j < n; j++ {
-			fmt.Printf("%5.2f ", m.RoundFloat(A[i][j], 2))
+			fmt.Printf("%5.2f ", RoundFloat(A[i][j], 2))
 		}
 
 		fmt.Printf(" | ")
 		for j := n; j < 2*n; j++ {
-			fmt.Printf("%5.2f ", m.RoundFloat(A[i][j], 2))
+			fmt.Printf("%5.2f ", RoundFloat(A[i][j], 2))
 		}
 		fmt.Println()
 	}
@@ -31,9 +45,11 @@ func printIterInv(k int, A [][]float64, isForward bool) {
 }
 
 // Вычисляет обратную матрицу путем элементарных преобразований
-func InverseMatrix(A [][]float64, verbose bool) [][]float64 {
-	n := len(A)
+func InverseMatrix(A_in Matrix, verbose bool) Matrix {
+	A := make([][]float64, len(A_in))
+	copy(A, A_in)
 
+	n := len(A)
 	for i := 0; i < n; i++ {
 		eye_row := make([]float64, n)
 		eye_row[i] = 1

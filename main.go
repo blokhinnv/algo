@@ -187,11 +187,18 @@ func gaussExample2() {
 }
 
 func invExample() {
-	// A := [][]float64{{3, -2, 4}, {3, 4, -2}, {2, -1, -1}}
 	// A := [][]float64{{1, 2, 4}, {5, 8, 5}, {2, 4, 4}}
+	A := m.Matrix{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
+	A_inv := m.InverseMatrix(A, true)
+	fmt.Println("A_inv = ", A_inv)
+	fmt.Println("A = ", A)
+	fmt.Println("A @ A_inv = ", m.MatMul(A, A_inv))
+}
+
+func solveMMulExample() {
 	A := [][]float64{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
-	// b := []float64{21, 9, 10}
-	X := systems.InverseMatrix(A, true)
+	b := []float64{20, 11, 40, 37}
+	X := systems.SolveMmul(A, b, true)
 	fmt.Println("X = ", X)
 }
 
@@ -209,6 +216,8 @@ func main() {
 	_ = succApproxAdvExample
 	_ = gaussExample
 	_ = gaussExample2
+	_ = invExample
+	_ = solveMMulExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -221,5 +230,6 @@ func main() {
 	// newtonExample()
 	// gaussExample()
 	// gaussExample2()
-	invExample()
+	// invExample()
+	solveMMulExample()
 }
