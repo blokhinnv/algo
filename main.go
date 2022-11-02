@@ -161,8 +161,8 @@ func newtonExample() {
 }
 
 func gaussExample() {
-	A := [][]float64{{4, 2, -1}, {5, 3, -2}, {3, 2, -3}}
-	b := []float64{1, 2, 0}
+	A := m.Matrix{{4, 2, -1}, {5, 3, -2}, {3, 2, -3}}
+	b := m.Vector{1, 2, 0}
 
 	fmt.Println("Классический метод Гаусса")
 	X := systems.SolveGauss(A, b, true)
@@ -174,8 +174,8 @@ func gaussExample() {
 }
 
 func gaussExample2() {
-	A := [][]float64{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
-	b := []float64{20, 11, 40, 37}
+	A := m.Matrix{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
+	b := m.Vector{20, 11, 40, 37}
 
 	fmt.Println("Классический метод Гаусса")
 	X := systems.SolveGauss(A, b, true)
@@ -196,8 +196,8 @@ func invExample() {
 }
 
 func solveMMulExample() {
-	A := [][]float64{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
-	b := []float64{20, 11, 40, 37}
+	A := m.Matrix{{2, 5, 4, 1}, {1, 3, 2, 1}, {2, 10, 9, 7}, {3, 8, 9, 2}}
+	b := m.Vector{20, 11, 40, 37}
 	X := systems.SolveMmul(A, b, true)
 	fmt.Println("X = ", X)
 }

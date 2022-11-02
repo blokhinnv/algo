@@ -4,21 +4,6 @@ import (
 	"fmt"
 )
 
-type Matrix [][]float64
-
-// Метод для красивого вывода матрицы
-func (r Matrix) String() string {
-	m, n := len(r), len(r[0])
-	s := "\n"
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			s += fmt.Sprintf("%5.2f ", RoundFloat(r[i][j], 2))
-		}
-		s += "\n"
-	}
-	return s
-}
-
 // Выводит на экран текущую матрицу преобразования
 // в форматированном виде
 func printIterInv(k int, A Matrix, isForward bool) {
@@ -46,9 +31,7 @@ func printIterInv(k int, A Matrix, isForward bool) {
 
 // Вычисляет обратную матрицу путем элементарных преобразований
 func InverseMatrix(A_in Matrix, verbose bool) Matrix {
-	A := make([][]float64, len(A_in))
-	copy(A, A_in)
-
+	A := A_in.Copy()
 	n := len(A)
 	for i := 0; i < n; i++ {
 		eye_row := make([]float64, n)

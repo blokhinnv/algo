@@ -7,7 +7,7 @@ import (
 
 // Выводит на экран текущую матрицу системы и вектор свободных членов в
 // форматированном виде
-func printIter(k int, A [][]float64, b []float64, isForward bool) {
+func printIter(k int, A m.Matrix, b m.Vector, isForward bool) {
 	n := len(A)
 
 	arrow := "↓"
@@ -23,15 +23,13 @@ func printIter(k int, A [][]float64, b []float64, isForward bool) {
 		fmt.Printf("| %5.2f \n", m.RoundFloat(b[i], 2))
 	}
 	fmt.Println()
-
 }
 
 // Классический метод Гаусса
-func SolveGauss(A_in [][]float64, b_in []float64, verbose bool) []float64 {
-	A := make([][]float64, len(A_in))
-	b := make([]float64, len(b_in))
-	copy(A, A_in)
-	copy(b, b_in)
+func SolveGauss(A_in m.Matrix, b_in m.Vector, verbose bool) m.Vector {
+	A := A_in.Copy()
+	b := b_in.Copy()
+
 	n := len(A)
 	for k := 0; k < n-1; k++ { // итерации прямого хода
 		for i := k + 1; i < n; i++ { // проход строк ниже k
@@ -47,7 +45,7 @@ func SolveGauss(A_in [][]float64, b_in []float64, verbose bool) []float64 {
 		}
 	}
 
-	xs := make([]float64, n)
+	xs := make(m.Vector, n)
 
 	for k := n - 1; k >= 0; k-- { // итерация обратного хода
 		x := b[k]
@@ -61,11 +59,9 @@ func SolveGauss(A_in [][]float64, b_in []float64, verbose bool) []float64 {
 }
 
 // Метод Жордана-Гаусса
-func SolveGaussBackward(A_in [][]float64, b_in []float64, verbose bool) []float64 {
-	A := make([][]float64, len(A_in))
-	b := make([]float64, len(b_in))
-	copy(A, A_in)
-	copy(b, b_in)
+func SolveGaussBackward(A_in m.Matrix, b_in m.Vector, verbose bool) m.Vector {
+	A := A_in.Copy()
+	b := b_in.Copy()
 
 	n := len(A)
 	nForwardIters := n - 1

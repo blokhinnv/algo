@@ -6,7 +6,7 @@ import (
 )
 
 // Решение системы при помощи матричного умножения
-func SolveMmul(A m.Matrix, b []float64, verbose bool) []float64 {
+func SolveMmul(A m.Matrix, b m.Vector, verbose bool) m.Vector {
 	A_inv := m.InverseMatrix(A, false)
 	if verbose {
 		fmt.Println("A=", A)
@@ -17,7 +17,7 @@ func SolveMmul(A m.Matrix, b []float64, verbose bool) []float64 {
 		b_col[i] = []float64{b[i]}
 	}
 	x_col := m.MatMul(A_inv, b_col)
-	x := make([]float64, len(x_col))
+	x := make(m.Vector, len(x_col))
 	for i := 0; i < len(b); i++ {
 		x[i] = x_col[i][0]
 	}
