@@ -202,6 +202,50 @@ func solveMMulExample() {
 	fmt.Println("X = ", X)
 }
 
+func jacobianExample() {
+	F := m.VariadicFunction{
+		Y: func(fs, x []float64) {
+			fs[0] = x[0] + x[1] - 3
+			fs[1] = x[0]*x[0] + x[1]*x[1] - 9
+		},
+		M: 2,
+		N: 2,
+	}
+	// JF = [
+	// 	1 1
+	// 	2x1 2x2
+	// ]
+	x := m.Vector{6, 2}
+	fmt.Println(F.Jacobian(x))
+}
+
+func newtonSystemExample1() {
+	F := m.VariadicFunction{
+		Y: func(fs, x []float64) {
+			fs[0] = x[0] + x[1] - 3
+			fs[1] = x[0]*x[0] + x[1]*x[1] - 9
+		},
+		M: 2,
+		N: 2,
+	}
+	x := systems.SolveNewton(F, m.Vector{1, 5}, 0.001)
+	fmt.Println("Ответ ", x)
+}
+
+func newtonSystemExample2() {
+	F := m.VariadicFunction{
+		Y: func(fs, x []float64) {
+			fs[0] = math.Pow(x[0], 2) + math.Pow(x[1], 2) + math.Pow(x[2], 2) - 1
+			fs[1] = 2*math.Pow(x[0], 2) + math.Pow(x[1], 2) - 4*x[2]
+			fs[2] = 3*math.Pow(x[0], 2) - 4*x[1] + math.Pow(x[2], 2)
+		},
+		M: 3,
+		N: 3,
+	}
+	x := systems.SolveNewton(F, m.Vector{0.5, 0.5, 0.5}, 0.0001)
+	fmt.Println("Ответ ", x)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -218,6 +262,9 @@ func main() {
 	_ = gaussExample2
 	_ = invExample
 	_ = solveMMulExample
+	_ = jacobianExample
+	_ = newtonSystemExample1
+	_ = newtonSystemExample2
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -231,5 +278,8 @@ func main() {
 	// gaussExample()
 	// gaussExample2()
 	// invExample()
-	solveMMulExample()
+	// solveMMulExample()
+	// jacobianExample()
+	// newtonSystemExample1()
+	newtonSystemExample2()
 }
