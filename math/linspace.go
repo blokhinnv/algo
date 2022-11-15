@@ -17,11 +17,11 @@ func Linspace(start, stop float64, N int) []float64 {
 // Генерирует точки на полуинтервале с заданным шагов
 func Arange(start, stop, step float64) []float64 {
 	N := int(math.Ceil((stop - start) / step))
-	rnge := make([]float64, N)
+	rnge := make([]float64, N+1)
 	i := 0
 	for x := start; x < stop; x += step {
 		rnge[i] = x
 		i += 1
 	}
-	return rnge
+	return rnge[:N]
 }

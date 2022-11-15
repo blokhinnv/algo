@@ -1,6 +1,7 @@
 package main
 
 import (
+	"algo/differential"
 	"algo/equation"
 	"algo/graph"
 	"algo/integrate"
@@ -246,6 +247,43 @@ func newtonSystemExample2() {
 	fmt.Println("Ответ ", x)
 }
 
+func solveRungeKuttaExample() {
+	f := func(x, y float64) float64 {
+		return x*x - 2*y
+	}
+	res_euler := differential.SolveEuler(f, 0, 1, 0.1, 1)
+	fmt.Printf("Метод Эйлера: \n%v", res_euler)
+	res_rk2 := differential.SolveRK2(f, 0, 1, 0.1, 1)
+	fmt.Printf("Метод Рунге-Кутта II: \n%v", res_rk2)
+	res_rk4 := differential.SolveRK4(f, 0, 1, 0.1, 1)
+	fmt.Printf("Метод Рунге-Кутта IV: \n%v", res_rk2)
+	true_f := differential.NewTabularFunctionFromF(
+		func(x float64) float64 {
+			return 3.0/4*math.Exp(-2*x) + 1.0/2*x*x - 1.0/2*x + 1.0/4
+		},
+		0, 1.1, 0.1,
+	)
+	fmt.Printf(
+		"Ошибка метода Эйлера: %.5f\n",
+		true_f.ComputeDissimilarity(res_euler),
+	)
+	fmt.Printf(
+		"Ошибка метода Рунге-Кутта II: %.5f\n",
+		true_f.ComputeDissimilarity(res_rk2),
+	)
+	fmt.Printf(
+		"Ошибка метода Рунге-Кутта IV %.5f\n",
+		true_f.ComputeDissimilarity(res_rk4),
+	)
+	differential.DrawTabularFunctions(
+		[]differential.TabularFunction{res_euler, res_rk2, res_rk4, true_f},
+		[]string{"Euler method", "Runge-Kutta II", "Runge-Kutta IV", "True function"},
+		"Runge-Kutta methods",
+		24,
+		"graph_examples/runge-kutta.png",
+	)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -265,6 +303,7 @@ func main() {
 	_ = jacobianExample
 	_ = newtonSystemExample1
 	_ = newtonSystemExample2
+	_ = solveRungeKuttaExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -281,5 +320,6 @@ func main() {
 	// solveMMulExample()
 	// jacobianExample()
 	// newtonSystemExample1()
-	newtonSystemExample2()
+	// newtonSystemExample2()
+	solveRungeKuttaExample()
 }
