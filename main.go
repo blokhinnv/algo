@@ -256,7 +256,7 @@ func solveRungeKuttaExample() {
 	res_rk2 := differential.SolveRK2(f, 0, 1, 0.1, 1)
 	fmt.Printf("Метод Рунге-Кутта II: \n%v", res_rk2)
 	res_rk4 := differential.SolveRK4(f, 0, 1, 0.1, 1)
-	fmt.Printf("Метод Рунге-Кутта IV: \n%v", res_rk2)
+	fmt.Printf("Метод Рунге-Кутта IV: \n%v", res_rk4)
 	true_f := differential.NewTabularFunctionFromF(
 		func(x float64) float64 {
 			return 3.0/4*math.Exp(-2*x) + 1.0/2*x*x - 1.0/2*x + 1.0/4
@@ -284,6 +284,44 @@ func solveRungeKuttaExample() {
 	)
 }
 
+func solvePredictorCorrectorExample() {
+	f := func(x, y float64) float64 {
+		return x*x - 2*y
+	}
+	res_pc := differential.SolvePredictorCorrector(f, 0, 1, 0.05, 1, 0.1)
+	_ = res_pc
+	fmt.Printf("Метод прогноза и коррекции: \n%v", res_pc)
+	res_rk4 := differential.SolveRK4(f, 0, 1, 0.05, 1)
+	fmt.Printf("Метод Рунге-Кутта IV: \n%v", res_rk4)
+	true_f := differential.NewTabularFunctionFromF(
+		func(x float64) float64 {
+			return 3.0/4*math.Exp(-2*x) + 1.0/2*x*x - 1.0/2*x + 1.0/4
+		},
+		0, 1, 0.05,
+	)
+	fmt.Printf(
+		"Ошибка метода прогноза и коррекции: %.5f\n",
+		true_f.ComputeDissimilarity(res_pc),
+	)
+	fmt.Printf(
+		"Ошибка метода Рунге-Кутта IV %.5f\n",
+		true_f.ComputeDissimilarity(res_rk4),
+	)
+	res_euler := differential.SolveEuler(f, 0, 1, 0.1, 1)
+	differential.DrawTabularFunctions(
+		[]differential.TabularFunction{res_euler, res_pc, res_rk4, true_f},
+		[]string{
+			"Euler method",
+			"Prediction-correction method",
+			"Runge-Kutta IV",
+			"True function",
+		},
+		"Numerical methods",
+		8,
+		"graph_examples/prediction-correction.png",
+	)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -304,6 +342,7 @@ func main() {
 	_ = newtonSystemExample1
 	_ = newtonSystemExample2
 	_ = solveRungeKuttaExample
+	_ = solvePredictorCorrectorExample
 	// drawExample("graph2")
 	// graph_example()
 	// graph_example2()
@@ -321,5 +360,6 @@ func main() {
 	// jacobianExample()
 	// newtonSystemExample1()
 	// newtonSystemExample2()
-	solveRungeKuttaExample()
+	// solveRungeKuttaExample()
+	solvePredictorCorrectorExample()
 }

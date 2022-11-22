@@ -73,7 +73,7 @@ func NewTabularFunctionFromF(
 	h float64,
 ) TabularFunction {
 	tf := TabularFunction{make([]float64, 0), make([]float64, 0)}
-	for _, x := range m.Arange(a, b, h) {
+	for _, x := range m.Arange(a, b+h, h) {
 		tf.add(x, f(x))
 	}
 	return tf
