@@ -5,6 +5,7 @@ import (
 	"algo/equation"
 	"algo/graph"
 	"algo/integrate"
+	"algo/markov"
 	m "algo/math"
 	"algo/systems"
 	"fmt"
@@ -14,6 +15,7 @@ import (
 	"os/exec"
 
 	"github.com/dominikbraun/graph/draw"
+	"gonum.org/v1/gonum/mat"
 )
 
 func integrals_example() {
@@ -322,6 +324,58 @@ func solvePredictorCorrectorExample() {
 	)
 }
 
+func solveMarkovChain() {
+	// https://xn--24-6kcaa2awqnc8dd.xn--p1ai/sistema-differencialnyh-uravnenij.html
+	// https://www.matburo.ru/Examples/Files/ProbProc19.pdf
+	// https://po-teme.com.ua/vysshaya-matematika/prikladnaya-matematika/2333-uravnenie-kolmogorova-dlya-nepreryvnoj-tsepi-markova.html
+	intM := markov.IntensityMatrix{
+		{0, 1, 1},
+		{0, 0, 2},
+		{3, 0, 0},
+	}
+	m, n := len(intM), len(intM[0])
+	A := make([][]float64, m)
+	for i := 0; i < m; i++ {
+		A[i] = make([]float64, n)
+		for j := 0; j < n; j++ {
+			A[i][i] -= intM[i][j]
+		}
+		for k := 0; k < m; k++ {
+			A[i][k] += intM[k][i]
+		}
+	}
+	dense := make([]float64, 0)
+	cdense := make([]complex128, 0)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			dense = append(dense, A[i][j])
+			cdense = append(cdense, 0)
+		}
+	}
+	dense = []float64{2, 1, 3, 4}
+	// a := mat.NewDense(m, n, dense)
+	// fmt.Printf("A = %v\n\n", mat.Formatted(a, mat.Prefix("    ")))
+	a := mat.NewDense(2, 2, dense)
+	var eig mat.Eigen
+	ok := eig.Factorize(a, mat.EigenRight)
+	if !ok {
+		log.Fatal("Eigendecomposition failed")
+	}
+	fmt.Printf("Eigenvalues of A:\n%v\n", eig.Values(nil))
+	m, n = 2, 2
+	eigV := mat.NewCDense(2, 2, []complex128{0, 0, 0, 0})
+	eig.VectorsTo(eigV)
+	fmt.Println(eigV.At(0, 0), eigV.At(1, 0))
+	eigenvectors := make([][]float64, m)
+	for i := 0; i < m; i++ {
+		eigenvectors[i] = make([]float64, n)
+		for j := 0; j < n; j++ {
+			eigenvectors[i][j] = real(eigV.At(i, j))
+		}
+	}
+	fmt.Println(eigenvectors)
+}
+
 func main() {
 	_ = integrals_example
 	_ = drawExample
@@ -361,5 +415,6 @@ func main() {
 	// newtonSystemExample1()
 	// newtonSystemExample2()
 	// solveRungeKuttaExample()
-	solvePredictorCorrectorExample()
+	_ = solveMarkovChain
+	solveMarkovChain()
 }
